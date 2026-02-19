@@ -53,11 +53,12 @@ export class Endereco implements OnInit {
     // Validação simples de CEP (8 dígitos)
     if (cepSomenteNumeros.length !== 8) {
       this.erroCep = 'CEP inválido. Digite 8 números.';
+       this.cdr.detectChanges();
       return;
     }
 
     this.carregandoCep = true;
-
+    this.cdr.detectChanges();
     // Chama ViaCEP e preenche os campos
     this.enderecoService.buscarCep(cepSomenteNumeros).subscribe({
       next: (res) => {
@@ -66,7 +67,7 @@ export class Endereco implements OnInit {
         // ViaCEP retorna { erro: true } quando CEP não existe
         if (res.erro) {
           this.erroCep = 'CEP não encontrado.';
-          this.cdr.detectChanges();
+          this.cdr.detectChanges(); 
           return;
         }
 

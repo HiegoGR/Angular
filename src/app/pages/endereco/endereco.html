@@ -2,13 +2,13 @@
 <h1>Cadastro de Endereço</h1>
 
 <div class="page">
-  <!-- Card principal do formulário -->
-  <section class="card">
+  <!-- ✅ Formulário (ngForm) -->
+  <form class="card" #formulario="ngForm" (ngSubmit)="salvar()">
     <h2 class="card-title">Novo endereço</h2>
 
     <!-- Linha do CEP + botão pesquisar -->
     <div class="cep-row">
-      <!-- Campo de CEP -->
+      <!-- Campo de CEP (obrigatório) -->
       <label class="field">
         <span>CEP</span>
         <input
@@ -16,64 +16,112 @@
           name="cep"
           [(ngModel)]="endereco.cep"
           placeholder="Ex: 01001000"
+          required
         />
       </label>
 
       <!-- Botão que consulta o ViaCEP e preenche os campos -->
-      <button type="button" (click)="pesquisarCep()" [disabled]="carregandoCep">
+      <button
+        type="button"
+        (click)="pesquisarCep()"
+        [disabled]="carregandoCep"
+      >
         {{ carregandoCep ? 'Pesquisando...' : 'Pesquisar' }}
       </button>
     </div>
 
     <!-- Mensagem de erro do CEP (se existir) -->
-    <p class="error" *ngIf="erroCep">{{ erroCep }}</p>
+     @if(erroCep){
+        <p class="error">{{ erroCep }}</p>
+     }
 
     <!-- Campos do endereço -->
     <div class="form">
-      <!-- Logradouro -->
+      <!-- Logradouro (obrigatório) -->
       <label class="field">
         <span>Logradouro</span>
-        <input type="text" name="logradouro" [(ngModel)]="endereco.logradouro" />
+        <input
+          type="text"
+          name="logradouro"
+          [(ngModel)]="endereco.logradouro"
+          required
+        />
       </label>
 
-      <!-- Complemento -->
+      <!-- Complemento (opcional) -->
       <label class="field">
         <span>Complemento</span>
-        <input type="text" name="complemento" [(ngModel)]="endereco.complemento" />
+        <input
+          type="text"
+          name="complemento"
+          [(ngModel)]="endereco.complemento"
+        />
       </label>
 
-      <!-- Bairro -->
+      <!-- Bairro (obrigatório) -->
       <label class="field">
         <span>Bairro</span>
-        <input type="text" name="bairro" [(ngModel)]="endereco.bairro" />
+        <input
+          type="text"
+          name="bairro"
+          [(ngModel)]="endereco.bairro"
+          required
+        />
       </label>
 
-      <!-- Cidade (localidade) -->
+      <!-- Cidade (localidade) (obrigatório) -->
       <label class="field">
         <span>Localidade (Cidade)</span>
-        <input type="text" name="localidade" [(ngModel)]="endereco.localidade" />
+        <input
+          type="text"
+          name="localidade"
+          [(ngModel)]="endereco.localidade"
+          required
+        />
       </label>
 
-      <!-- UF -->
+      <!-- UF (obrigatório) -->
       <label class="field">
         <span>UF</span>
-        <input type="text" name="uf" [(ngModel)]="endereco.uf" />
+        <input
+          type="text"
+          name="uf"
+          [(ngModel)]="endereco.uf"
+          required
+        />
       </label>
 
-      <!-- Estado (nome vindo do IBGE) -->
+      <!-- Estado (obrigatório) -->
       <label class="field">
         <span>Estado</span>
-        <input type="text" name="estado" [(ngModel)]="endereco.estado" />
+        <input
+          type="text"
+          name="estado"
+          [(ngModel)]="endereco.estado"
+          required
+        />
       </label>
     </div>
 
     <!-- Botões de ação -->
     <div class="actions">
-      <!-- Salvar (por enquanto só console/alert) -->
-      <button type="button" (click)="salvar()">Salvar</button>
+      <!-- ✅ Submit do form (só habilita se o form for válido) -->
+      <button type="submit" [disabled]="!formulario.valid">
+        Salvar
+      </button>
 
       <!-- Limpar formulário -->
-      <button type="button" (click)="limpar()">Limpar</button>
+      <button type="button" (click)="limpar()">
+        Limpar
+      </button>
     </div>
-  </section>
+
+    <!-- ✅ Mensagem opcional se tentar salvar com campos faltando -->
+     @if(formulario.submitted && !formulario.valid){
+      <p class="error">
+        Preencha todos os campos obrigatórios antes de salvar.
+      </p>
+     }
+
+  </form>
 </div>
