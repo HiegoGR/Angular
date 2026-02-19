@@ -1,0 +1,81 @@
+/* Layout geral da página: formulário + listagem lado a lado */
+.page {
+  display: grid;
+  grid-template-columns: 420px 1fr;
+  gap: 24px;
+  align-items: start;
+}
+
+/* Cartões (caixas) para organizar as seções */
+.card {
+  border: 1px solid #e5e5e5;
+  border-radius: 14px;
+  padding: 18px;
+}
+
+/* Título interno do card */
+.card-title {
+  margin: 0 0 14px 0;
+}
+
+/* Formulário em coluna */
+.form {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+/* Cada campo do formulário */
+.field {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+/* Inputs com aparência agradável */
+input {
+  padding: 10px 12px;
+  border: 1px solid #d9d9d9;
+  border-radius: 10px;
+}
+
+/* Área dos botões */
+.actions {
+  display: flex;
+  gap: 10px;
+  margin-top: 8px;
+}
+
+/* Botões simples */
+button {
+  padding: 10px 12px;
+  border-radius: 10px;
+  border: 1px solid #d0d0d0;
+  background: transparent;
+  cursor: pointer;
+}
+
+/* Tabela da listagem */
+.table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+/* Cabeçalho e linhas */
+.table th,
+.table td {
+  text-align: left;
+  padding: 10px;
+  border-bottom: 1px solid #eee;
+}
+
+/* Ações da linha */
+.row-actions {
+  display: flex;
+  gap: 10px;
+}
+
+/* Texto “nenhum usuário” */
+.muted {
+  opacity: 0.7;
+}

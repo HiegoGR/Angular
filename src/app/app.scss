@@ -1,0 +1,11 @@
+/* Layout base do sistema */
+.app-shell {
+  display: flex;
+  min-height: 100vh;
+}
+
+/* Área onde as telas aparecem */
+.app-content {
+  flex: 1;
+  padding: 24px;
+}

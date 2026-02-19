@@ -1,0 +1,122 @@
+<!-- Título da página -->
+<h1>Cadastro de Usuário</h1>
+
+<div class="page">
+  <!-- Card do formulário -->
+  <section class="card">
+    <!-- Explica se está criando ou editando -->
+    <h2 class="card-title">
+      <!-- Se editandoId existe, mostra "Editar", senão "Novo" -->
+      {{ editandoId ? 'Editar usuário' : 'Novo usuário' }}
+    </h2>
+
+    <!-- Formulário (ngModel faz bind com this.usuario) -->
+    <form (ngSubmit)="salvar()" class="form">
+      <!-- Nome completo -->
+      <label class="field">
+        <span>Nome Completo</span>
+        <input
+          type="text"
+          [(ngModel)]="usuario.nomeCompleto"
+          name="nomeCompleto"
+          required
+        />
+      </label>
+
+      <!-- Data de nascimento -->
+      <label class="field">
+        <span>Data de nascimento</span>
+        <input
+          type="date"
+          [(ngModel)]="usuario.dataNascimento"
+          name="dataNascimento"
+          required
+        />
+      </label>
+
+      <!-- Nome da mãe -->
+      <label class="field">
+        <span>Nome da Mãe</span>
+        <input
+          type="text"
+          [(ngModel)]="usuario.nomeMae"
+          name="nomeMae"
+          required
+        />
+      </label>
+
+      <!-- Nome do pai -->
+      <label class="field">
+        <span>Nome do Pai</span>
+        <input
+          type="text"
+          [(ngModel)]="usuario.nomePai"
+          name="nomePai"
+          required
+        />
+      </label>
+
+      <!-- CPF -->
+      <label class="field">
+        <span>CPF</span>
+        <input
+          type="text"
+          [(ngModel)]="usuario.cpf"
+          name="cpf"
+          placeholder="000.000.000-00"
+          required
+        />
+      </label>
+
+      <!-- Botões de ação -->
+      <div class="actions">
+        <!-- Botão principal salva (POST ou PUT) -->
+        <button type="submit">
+          {{ editandoId ? 'Atualizar' : 'Cadastrar' }}
+        </button>
+
+        <!-- Botão secundário limpa o formulário -->
+        <button type="button" (click)="resetarFormulario()">
+          Limpar
+        </button>
+      </div>
+    </form>
+  </section>
+
+  <!-- Card da listagem -->
+  <section class="card">
+    <h2 class="card-title">Usuários cadastrados</h2>
+
+    <!-- Tabela simples com ações -->
+    <table class="table" *ngIf="usuarios.length > 0; else vazio">
+      <thead>
+        <tr>
+          <th>ID</th>
+          <th>Nome</th>
+          <th>CPF</th>
+          <th>Ações</th>
+        </tr>
+      </thead>
+
+      <tbody>
+        <tr *ngFor="let u of usuarios">
+          <td>{{ u.id }}</td>
+          <td>{{ u.nomeCompleto }}</td>
+          <td>{{ u.cpf }}</td>
+          <td class="row-actions">
+            <!-- Preenche o formulário para editar -->
+            <button type="button" (click)="editar(u)">Editar</button>
+
+            <!-- Remove o registro -->
+            <button type="button" (click)="remover(u.id)">Excluir</button>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+
+    <!-- Mensagem se não houver usuários -->
+    <ng-template #vazio>
+      <p class="muted">Nenhum usuário cadastrado ainda.</p>
+    </ng-template>
+  </section>
+</div>
