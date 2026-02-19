@@ -12,23 +12,45 @@ export class EnderecoService {
 
   constructor(private http: HttpClient) {}
 
-  // Consulta CEP no ViaCEP
+  // ✅ Troque para o host do seu backend
+  private baseUrl = 'http://localhost:8080';
+
+  // ---------- EXTERNOS (ViaCEP / IBGE) ----------
   buscarCep(cep: string): Observable<ViaCepResponse> {
     return this.http.get<ViaCepResponse>(`https://viacep.com.br/ws/${cep}/json/`);
   }
 
-  // Busca lista de estados no IBGE (e guarda em cache)
   buscarEstadosIbge(): Observable<IbgeEstado[]> {
     if (!this.estados$) {
       this.estados$ = this.http
         .get<IbgeEstado[]>('https://servicodados.ibge.gov.br/api/v1/localidades/estados')
         .pipe(
-          // evita quebrar a tela se der erro de rede
           catchError(() => of([] as IbgeEstado[])),
-          // cacheia para não chamar toda hora
           shareReplay(1)
         );
     }
     return this.estados$;
   }
+
+  // ---------- BACKEND (CRUD ENDEREÇO) ----------
+  criarEndereco(payload: EnderecoModel): Observable<any> {
+    return this.http.post(`${this.baseUrl}/endereco`, payload);
+  }
+
+  atualizarEndereco(payload: EnderecoModel): Observable<any> {
+    return this.http.put(`${this.baseUrl}/atualizar/endereco`, payload);
+  }
+
+  listarEnderecos(): Observable<EnderecoModel[]> {
+    return this.http.get<EnderecoModel[]>(`${this.baseUrl}/buscar/endereco`);
+  }
+
+  buscarEnderecoPorId(id: number): Observable<EnderecoModel> {
+    return this.http.get<EnderecoModel>(`${this.baseUrl}/buscar/endereco/${id}`);
+  }
+
+  deletarEndereco(id: number): Observable<void> {
+    return this.http.delete<void>(`${this.baseUrl}/endereco/${id}`);
+  }
+
 }

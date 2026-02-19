@@ -123,5 +123,70 @@
       </p>
      }
 
-  </form>
+  </form> <!--  fechamento do form -->
+
+      <!-- ✅ Listagem (fica FORA do form) -->
+    <section class="card" style="margin-top: 16px;">
+      <h2 class="card-title">Endereços cadastrados</h2>
+
+      <!-- Se tiver endereços, mostra tabela -->
+      @if (enderecos.length > 0) {
+        <table class="table">
+          <thead>
+            <tr>
+              <th>ID</th>
+              <th>CEP</th>
+              <th>Logradouro</th>
+              <th>Bairro</th>
+              <th>Cidade</th>
+              <th>UF</th>
+              <th>Estado</th>
+              <th>Ações</th>
+            </tr>
+          </thead>
+
+         <tbody>
+<!--          
+exemplo de com usar sintaxy nova do ngFor
+<h3>Produtos</h3>
+@for (p of produtos; track p.id) {
+  <p>{{ p.nome }}</p>
+} @empty {
+  <p>Nenhum produto encontrado.</p>
+}
+
+@for (p of produtos; track p.id; let i = $index) {
+  <p>{{ i + 1 }}: {{ p.nome }}</p>
+}
+ -->
+
+          @for (e of enderecos; track e.id) {
+            <tr>
+              <td>{{ e.id }}</td>
+              <td>{{ e.cep }}</td>
+              <td>{{ e.logradouro }}</td>
+              <td>{{ e.bairro }}</td>
+              <td>{{ e.localidade }}</td>
+              <td>{{ e.uf }}</td>
+              <td>{{ e.estado }}</td>
+              <td class="row-actions">
+                <button type="button" (click)="editar(e)">Editar</button>
+                <button type="button" (click)="remover(e.id)">Excluir</button>
+              </td>
+            </tr>
+          } @empty {
+            <tr>
+              <td colspan="8" class="muted">Nenhum endereço cadastrado ainda.</td>
+            </tr>
+          }
+         </tbody>
+
+        </table>
+      }
+      @else {
+        <p class="muted">Nenhum endereço cadastrado ainda.</p>
+      }
+
+    </section>
+
 </div>

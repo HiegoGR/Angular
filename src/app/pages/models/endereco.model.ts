@@ -1,5 +1,6 @@
 // Modelo do Endereço usado no formulário
 export interface EnderecoModel {
+  id?: number;
   cep: string;
   logradouro: string;
   complemento: string;

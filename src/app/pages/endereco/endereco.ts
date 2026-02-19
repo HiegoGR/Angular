@@ -25,6 +25,8 @@ export class Endereco implements OnInit {
 
   // Lista de estados carregada do IBGE
   estados: IbgeEstado[] = [];
+  enderecos: EnderecoModel[] = [];
+  editandoId: number | null = null;
 
   // Flags para UX
   carregandoCep = false;
@@ -40,6 +42,22 @@ export class Endereco implements OnInit {
     this.enderecoService.buscarEstadosIbge().subscribe({
       next: (lista) => (this.estados = lista),
       error: () => (this.estados = []),
+    });
+
+    this.carregarEnderecos();
+
+  }
+
+  carregarEnderecos(): void {
+    this.enderecoService.listarEnderecos().subscribe({
+      next: (lista) => {
+        this.enderecos = lista ?? [];
+        this.cdr.detectChanges();
+      },
+      error: () => {
+        this.enderecos = [];
+        this.cdr.detectChanges();
+      }
     });
   }
 
@@ -102,6 +120,7 @@ export class Endereco implements OnInit {
   limpar(): void {
     // Limpa o formulário
     this.erroCep = null;
+    this.editandoId = null;
     this.endereco = {
       cep: '',
       logradouro: '',
@@ -114,9 +133,78 @@ export class Endereco implements OnInit {
   }
 
   salvar(): void {
-    // Aqui você ainda não passou endpoints de salvar endereço.
-    // Por enquanto vamos só mostrar no console.
-    console.log('Endereço para salvar:', this.endereco);
-    alert('Endereço pronto! (por enquanto só exibindo no console)');
+    // validação simples (obrigatórios)
+    const obrigatorios = [
+      this.endereco.cep,
+      this.endereco.logradouro,
+      this.endereco.bairro,
+      this.endereco.localidade,
+      this.endereco.uf,
+      this.endereco.estado,
+    ];
+
+    const temVazio = obrigatorios.some((v) => !v || v.trim() === '');
+    if (temVazio) {
+      this.erroCep = 'Preencha todos os campos obrigatórios antes de salvar.';
+      this.cdr.detectChanges();
+      return;
+    }
+
+    // Se estiver editando: PUT
+    if (this.editandoId) {
+      const payload: EnderecoModel = { ...this.endereco, id: this.editandoId };
+
+      this.enderecoService.atualizarEndereco(payload).subscribe({
+        next: () => {
+          this.limpar();
+          this.carregarEnderecos();
+        },
+        error: () => {
+          this.erroCep = 'Erro ao atualizar endereço.';
+          this.cdr.detectChanges();
+        }
+      });
+      return;
+    }
+
+    // Senão: POST
+    this.enderecoService.criarEndereco(this.endereco).subscribe({
+      next: () => {
+        this.limpar();
+        this.carregarEnderecos();
+      },
+      error: () => {
+        this.erroCep = 'Erro ao salvar endereço.';
+        this.cdr.detectChanges();
+      }
+    });
   }
+
+  editar(e: EnderecoModel): void {
+    this.editandoId = e.id ?? null;
+    this.endereco = {
+      cep: e.cep ?? '',
+      logradouro: e.logradouro ?? '',
+      complemento: e.complemento ?? '',
+      bairro: e.bairro ?? '',
+      localidade: e.localidade ?? '',
+      uf: e.uf ?? '',
+      estado: e.estado ?? '',
+    };
+    this.cdr.detectChanges();
+  }
+
+  remover(id?: number): void {
+    if (!id) return;
+
+    this.enderecoService.deletarEndereco(id).subscribe({
+      next: () => this.carregarEnderecos(),
+      error: () => {
+        this.erroCep = 'Erro ao excluir endereço.';
+        this.cdr.detectChanges();
+      }
+    });
+  }
+
+
 }
