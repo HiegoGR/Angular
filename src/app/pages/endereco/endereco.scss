@@ -1,0 +1,84 @@
+/* Layout geral da página */
+.page {
+  max-width: 900px;
+}
+
+/* Card (caixa) do formulário */
+.card {
+  border: 1px solid #e5e5e5;
+  border-radius: 14px;
+  padding: 18px;
+}
+
+/* Título interno */
+.card-title {
+  margin: 0 0 14px 0;
+}
+
+/* Linha do CEP + botão pesquisar */
+.cep-row {
+  display: grid;
+  grid-template-columns: 1fr 140px;
+  gap: 12px;
+  align-items: end;
+  margin-bottom: 10px;
+}
+
+/* Formulário em grid para ficar organizado */
+.form {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 12px;
+  margin-top: 10px;
+}
+
+/* Cada campo: label + input */
+.field {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+/* Inputs */
+input {
+  padding: 10px 12px;
+  border: 1px solid #d9d9d9;
+  border-radius: 10px;
+}
+
+/* Mensagem de erro */
+.error {
+  margin: 6px 0 0 0;
+  color: #b00020;
+}
+
+/* Botões */
+.actions {
+  display: flex;
+  gap: 10px;
+  margin-top: 14px;
+}
+
+button {
+  padding: 10px 12px;
+  border-radius: 10px;
+  border: 1px solid #d0d0d0;
+  background: transparent;
+  cursor: pointer;
+}
+
+button:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+/* Responsivo: no celular vira 1 coluna */
+@media (max-width: 700px) {
+  .form {
+    grid-template-columns: 1fr;
+  }
+
+  .cep-row {
+    grid-template-columns: 1fr;
+  }
+}

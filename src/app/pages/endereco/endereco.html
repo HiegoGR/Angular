@@ -1,1 +1,79 @@
+<!-- Título da página -->
 <h1>Cadastro de Endereço</h1>
+
+<div class="page">
+  <!-- Card principal do formulário -->
+  <section class="card">
+    <h2 class="card-title">Novo endereço</h2>
+
+    <!-- Linha do CEP + botão pesquisar -->
+    <div class="cep-row">
+      <!-- Campo de CEP -->
+      <label class="field">
+        <span>CEP</span>
+        <input
+          type="text"
+          name="cep"
+          [(ngModel)]="endereco.cep"
+          placeholder="Ex: 01001000"
+        />
+      </label>
+
+      <!-- Botão que consulta o ViaCEP e preenche os campos -->
+      <button type="button" (click)="pesquisarCep()" [disabled]="carregandoCep">
+        {{ carregandoCep ? 'Pesquisando...' : 'Pesquisar' }}
+      </button>
+    </div>
+
+    <!-- Mensagem de erro do CEP (se existir) -->
+    <p class="error" *ngIf="erroCep">{{ erroCep }}</p>
+
+    <!-- Campos do endereço -->
+    <div class="form">
+      <!-- Logradouro -->
+      <label class="field">
+        <span>Logradouro</span>
+        <input type="text" name="logradouro" [(ngModel)]="endereco.logradouro" />
+      </label>
+
+      <!-- Complemento -->
+      <label class="field">
+        <span>Complemento</span>
+        <input type="text" name="complemento" [(ngModel)]="endereco.complemento" />
+      </label>
+
+      <!-- Bairro -->
+      <label class="field">
+        <span>Bairro</span>
+        <input type="text" name="bairro" [(ngModel)]="endereco.bairro" />
+      </label>
+
+      <!-- Cidade (localidade) -->
+      <label class="field">
+        <span>Localidade (Cidade)</span>
+        <input type="text" name="localidade" [(ngModel)]="endereco.localidade" />
+      </label>
+
+      <!-- UF -->
+      <label class="field">
+        <span>UF</span>
+        <input type="text" name="uf" [(ngModel)]="endereco.uf" />
+      </label>
+
+      <!-- Estado (nome vindo do IBGE) -->
+      <label class="field">
+        <span>Estado</span>
+        <input type="text" name="estado" [(ngModel)]="endereco.estado" />
+      </label>
+    </div>
+
+    <!-- Botões de ação -->
+    <div class="actions">
+      <!-- Salvar (por enquanto só console/alert) -->
+      <button type="button" (click)="salvar()">Salvar</button>
+
+      <!-- Limpar formulário -->
+      <button type="button" (click)="limpar()">Limpar</button>
+    </div>
+  </section>
+</div>
