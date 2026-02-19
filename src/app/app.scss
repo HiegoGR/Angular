@@ -1,11 +1,23 @@
-/* Layout base do sistema */
 .app-shell {
-  display: flex;
+  display: grid;
+  grid-template-columns: 280px 1fr;
   min-height: 100vh;
 }
 
-/* Área onde as telas aparecem */
 .app-content {
-  flex: 1;
-  padding: 24px;
+  padding: 22px;
+  max-width: 1200px;
+  width: 100%;
+  margin: 0 auto;
+}
+
+/* Mobile: sidebar vira topo */
+@media (max-width: 920px) {
+  .app-shell {
+    grid-template-columns: 1fr;
+  }
+
+  .app-content {
+    padding: 16px;
+  }
 }

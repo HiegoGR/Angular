@@ -1,58 +1,63 @@
-/* Layout geral da página */
 .page {
-  max-width: 900px;
+  display: grid;
+  gap: 16px;
 }
 
-/* Card (caixa) do formulário */
 .card {
-  border: 1px solid #e5e5e5;
-  border-radius: 14px;
-  padding: 18px;
+  border: 1px solid var(--border);
+  background: rgba(255,255,255,0.06);
+  backdrop-filter: blur(10px);
+  border-radius: var(--radius);
+  box-shadow: var(--shadow-soft);
+  padding: 16px;
 }
 
-/* Título interno */
 .card-title {
-  margin: 0 0 14px 0;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
 }
 
-/* Linha do CEP + botão pesquisar */
 .cep-row {
   display: grid;
-  grid-template-columns: 1fr 140px;
+  grid-template-columns: 1fr 160px;
   gap: 12px;
   align-items: end;
-  margin-bottom: 10px;
 }
 
-/* Formulário em grid para ficar organizado */
 .form {
   display: grid;
   grid-template-columns: 1fr 1fr;
   gap: 12px;
-  margin-top: 10px;
+  margin-top: 12px;
 }
 
-/* Cada campo: label + input */
 .field {
   display: flex;
   flex-direction: column;
   gap: 6px;
 }
 
-/* Inputs */
+.field span {
+  font-size: 12px;
+  color: var(--muted);
+}
+
 input {
-  padding: 10px 12px;
-  border: 1px solid #d9d9d9;
-  border-radius: 10px;
+  padding: 11px 12px;
+  border-radius: 14px;
+  border: 1px solid var(--border);
+  background: rgba(0,0,0,0.22);
+  color: var(--text);
+  outline: none;
+  transition: border-color .12s ease, transform .12s ease, box-shadow .12s ease;
 }
 
-/* Mensagem de erro */
-.error {
-  margin: 6px 0 0 0;
-  color: #b00020;
+input:focus {
+  border-color: rgba(124,58,237,0.7);
+  box-shadow: 0 0 0 4px rgba(124,58,237,0.18);
 }
 
-/* Botões */
 .actions {
   display: flex;
   gap: 10px;
@@ -60,25 +65,78 @@ input {
 }
 
 button {
-  padding: 10px 12px;
-  border-radius: 10px;
-  border: 1px solid #d0d0d0;
-  background: transparent;
+  padding: 10px 14px;
+  border-radius: 14px;
+  border: 1px solid var(--border);
+  background: rgba(255,255,255,0.06);
+  color: var(--text);
   cursor: pointer;
+  transition: transform .12s ease, background .12s ease, border-color .12s ease;
+}
+
+button:hover {
+  transform: translateY(-1px);
+  background: rgba(255,255,255,0.10);
 }
 
 button:disabled {
-  opacity: 0.6;
+  opacity: 0.5;
   cursor: not-allowed;
+  transform: none;
 }
 
-/* Responsivo: no celular vira 1 coluna */
-@media (max-width: 700px) {
-  .form {
+button[type="submit"] {
+  border-color: rgba(124,58,237,0.55);
+  background: rgba(124,58,237,0.18);
+}
+
+.error {
+  margin: 10px 0 0 0;
+  color: #fecaca;
+  background: rgba(239,68,68,0.15);
+  border: 1px solid rgba(239,68,68,0.25);
+  padding: 10px 12px;
+  border-radius: 14px;
+}
+
+/* Tabela bonita */
+.table {
+  width: 100%;
+  border-collapse: collapse;
+  overflow: hidden;
+  border-radius: 14px;
+  border: 1px solid var(--border);
+}
+
+.table th {
+  text-align: left;
+  font-size: 12px;
+  color: var(--muted);
+  padding: 12px;
+  background: rgba(255,255,255,0.06);
+}
+
+.table td {
+  padding: 12px;
+  border-top: 1px solid rgba(255,255,255,0.08);
+}
+
+.row-actions {
+  display: flex;
+  gap: 8px;
+}
+
+.row-actions button:nth-child(2) {
+  border-color: rgba(239,68,68,0.35);
+  background: rgba(239,68,68,0.12);
+}
+
+/* Responsivo */
+@media (max-width: 920px) {
+  .cep-row {
     grid-template-columns: 1fr;
   }
-
-  .cep-row {
+  .form {
     grid-template-columns: 1fr;
   }
 }
